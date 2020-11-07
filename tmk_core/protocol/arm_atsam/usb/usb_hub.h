@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define PORT_DETECT_RETRY_INTERVAL 2000
 
-#define USB_EXTRA_ADC_THRESHOLD 900
+#define USB_EXTRA_ADC_THRESHOLD 850
+#define USB_EXTRA_ADC_THRESHOLD_P1 1250
 
 #define USB_EXTRA_STATE_DISABLED 0
 #define USB_EXTRA_STATE_ENABLED 1
