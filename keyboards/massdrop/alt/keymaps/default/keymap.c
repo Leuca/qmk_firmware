@@ -1,3 +1,5 @@
+// edited by Luca Magrone
+
 #include QMK_KEYBOARD_H
 
 enum alt_keycodes {
