@@ -22,7 +22,7 @@ static bool custom_indicators_run(effect_params_t* params){
 
 const uint8_t last_key = 66;
 uint8_t i;
-const uint8_t skip = 13;
+static uint8_t skip = 13;
 uint8_t k = 0;
 
 for(i=last_key+1; i < DRIVER_LED_TOTAL; i++){
