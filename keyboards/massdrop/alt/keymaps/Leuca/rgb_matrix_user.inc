@@ -22,48 +22,10 @@ static bool custom_indicators_run(effect_params_t* params){
 
 const uint8_t last_key = 66;
 uint8_t i;
-static uint8_t skip = 13;
+const uint8_t skip = 13;
 uint8_t k = 0;
 
-for(i=last_key+1; i < DRIVER_LED_TOTAL; i++){
-  if(i < last_key + 1 + MATRIX_COLS){
-    ledmap[layer][i][0] = ledmap[layer][i - last_key+1][0];
-    ledmap[layer][i][1] = ledmap[layer][i - last_key+1][1];
-    ledmap[layer][i][2] = ledmap[layer][i - last_key+1][2];
-  }
-
-  else if (i > last_key + 1 + MATRIX_COLS && i < last_key + 1 + MATRIX_COLS + 8){
-    ledmap[layer][i][0] = ledmap[layer][i - last_key+1 + (k * skip)][0];
-    ledmap[layer][i][1] = ledmap[layer][i - last_key+1 + (k * skip)][1];
-    ledmap[layer][i][2] = ledmap[layer][i - last_key+1 + (k * skip)][2];
-    if (k==0)
-    {
-      k = 1;
-    }
-    else
-    {
-      skip = (2 * skip) - 1;
-      k = 0;
-    }
-  }
-  else if ( i > last_key + 1 + MATRIX_COLS + 8 + 2 && i < DRIVER_LED_TOTAL - 4){
-    ledmap[layer][i][0] = ledmap[layer][(MATRIX_COLS * 4) + 1][0];
-    ledmap[layer][i][1] = ledmap[layer][(MATRIX_COLS * 4) + 1][1];
-    ledmap[layer][i][2] = ledmap[layer][(MATRIX_COLS * 4) + 1][2];
-  }
-  else if ( i > last_key + 1 + MATRIX_COLS + 8 && i < last_key + 1 + MATRIX_COLS + 8 + 3)
-  {
-    ledmap[layer][i][0] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][0];
-    ledmap[layer][i][1] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][1];
-    ledmap[layer][i][2] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][2];
-  }
-  else
-  {
-    ledmap[layer][i][0] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][0];
-    ledmap[layer][i][1] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][1];
-    ledmap[layer][i][2] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][2];
-  }
-}
+// TODO
 
 #endif // F_SIDEGLOW
 
