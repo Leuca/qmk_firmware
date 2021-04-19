@@ -18,6 +18,55 @@ static bool custom_indicators_run(effect_params_t* params){
 
 #include "ledmap.h"
 
+#ifdef F_SIDEGLOW // repeat led pattern to match the sideglow with keycap leds
+
+const uint8_t last_key = 66;
+uint8_t i;
+const uint8_t skip = 13;
+uint8_t k = 0;
+
+for(i=last_key+1; i < DRIVER_LED_TOTAL; i++){
+  if(i < last_key + 1 + MATRIX_COLS){
+    ledmap[layer][i][0] = ledmap[layer][i - last_key+1][0];
+    ledmap[layer][i][1] = ledmap[layer][i - last_key+1][1];
+    ledmap[layer][i][2] = ledmap[layer][i - last_key+1][2];
+  }
+
+  else if (i > last_key + 1 + MATRIX_COLS && i < last_key + 1 + MATRIX_COLS + 8){
+    ledmap[layer][i][0] = ledmap[layer][i - last_key+1 + (k * skip)][0];
+    ledmap[layer][i][1] = ledmap[layer][i - last_key+1 + (k * skip)][1];
+    ledmap[layer][i][2] = ledmap[layer][i - last_key+1 + (k * skip)][2];
+    if (k==0)
+    {
+      k = 1;
+    }
+    else
+    {
+      skip = (2 * skip) - 1;
+      k = 0;
+    }
+  }
+  else if ( i > last_key + 1 + MATRIX_COLS + 8 + 2 && i < DRIVER_LED_TOTAL - 4){
+    ledmap[layer][i][0] = ledmap[layer][(MATRIX_COLS * 4) + 1][0];
+    ledmap[layer][i][1] = ledmap[layer][(MATRIX_COLS * 4) + 1][1];
+    ledmap[layer][i][2] = ledmap[layer][(MATRIX_COLS * 4) + 1][2];
+  }
+  else if ( i > last_key + 1 + MATRIX_COLS + 8 && i < last_key + 1 + MATRIX_COLS + 8 + 3)
+  {
+    ledmap[layer][i][0] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][0];
+    ledmap[layer][i][1] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][1];
+    ledmap[layer][i][2] = ledmap[layer][i -  (MATRIX_COLS + 8) - 1][2];
+  }
+  else
+  {
+    ledmap[layer][i][0] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][0];
+    ledmap[layer][i][1] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][1];
+    ledmap[layer][i][2] = ledmap[layer][i -  (MATRIX_COLS + 8 + 10) - 1][2];
+  }
+}
+
+#endif // F_SIDEGLOW
+
   if (layer < max_ledmap_layer){
     for (uint8_t i = led_min; i < led_max; i++) {
       RGB rgb;
