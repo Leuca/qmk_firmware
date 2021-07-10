@@ -3,6 +3,7 @@
 #define HSV_NUM HSV_WHITE
 #define HSV_PLU HSV_GREEN
 #define HSV_MIN HSV_RED
+#define HSV_YEL HSV_YELLOW
 #define HSV_UGL 192, 217, 255
 
 #define MAX_SG 38
