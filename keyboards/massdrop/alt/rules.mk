@@ -21,7 +21,7 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 VIRTSER_ENABLE = no         # USB Serial Driver
-RAW_ENABLE = no             # Raw device
+RAW_ENABLE = yes             # Raw device
 AUTO_SHIFT_ENABLE = no      # Auto Shift
 
 # Custom RGB matrix handling
