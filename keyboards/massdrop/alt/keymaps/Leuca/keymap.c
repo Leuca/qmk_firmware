@@ -17,6 +17,10 @@
 
 #include QMK_KEYBOARD_H
 #include "led_mods.h"
+#include "raw_hid.h"
+
+// static bool led1_on = true; //assume led is on
+// static uint16_t led1_timer = 0; // timer must be initially 0 for led_blink() to work
 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -135,4 +139,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void rgb_matrix_indicators_kb(void) {
     turn_off_empty_keys(keymaps);
+    // led_blink(1, &led1_on, &led1_timer);
 }
+
+#ifdef RAW_ENABLE
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    raw_hid_send(data, RAW_EPSIZE);
+}
+#endif
