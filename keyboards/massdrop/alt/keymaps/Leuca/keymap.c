@@ -1,6 +1,6 @@
 /* Copyright 2021 Leuca
  *
- * This program is free software: you can {RGB_OFF}istribute it and/or modify
+ * This program is free software: you can distribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
@@ -16,7 +16,7 @@
 
 
 #include QMK_KEYBOARD_H
-#include "raw_hid.h"
+#include "led_mods.h"
 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -133,6 +133,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-    raw_hid_send(data, length);
+void rgb_matrix_indicators_kb(void) {
+    turn_off_empty_keys(keymaps);
 }
