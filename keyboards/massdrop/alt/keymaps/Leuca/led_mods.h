@@ -1,5 +1,6 @@
 #pragma once
 
+#define BLINK_MS 500
 #include QMK_KEYBOARD_H
 
 static const uint8_t key_leds_map[MATRIX_ROWS][MATRIX_COLS] = {
@@ -11,3 +12,4 @@ static const uint8_t key_leds_map[MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void turn_off_empty_keys(const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS]);
+void led_blink(uint8_t led_num, bool *on, uint16_t *timer);
