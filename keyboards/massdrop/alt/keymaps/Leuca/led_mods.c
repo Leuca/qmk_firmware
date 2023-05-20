@@ -31,3 +31,11 @@ void led_blink(uint8_t led_num, bool *on, uint16_t *timer){
         }
     }
 }
+
+
+// constructor that sets a series of leds based on an rgb array of values
+void led_slider_line_composer(uint16_t first_led, uint16_t last_led, uint16_t count, RGB led_buffer[count]){
+    for(uint8_t i = first_led; i <= last_led && last_led - first_led <= count; i++){
+        rgb_matrix_set_color(i, led_buffer[-(last_led - first_led - i)].r, led_buffer[-(last_led - first_led - i)].g, led_buffer[-(last_led - first_led - i)].b);
+    }
+}
