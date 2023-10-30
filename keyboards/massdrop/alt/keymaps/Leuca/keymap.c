@@ -137,9 +137,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-void rgb_matrix_indicators_kb(void) {
-    turn_off_empty_keys(keymaps);
-    // led_blink(1, &led1_on, &led1_timer);
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+
+    if (get_highest_layer(layer_state) > 0) {
+        uint8_t layer = get_highest_layer(layer_state);
+
+        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+                uint8_t index = g_led_config.matrix_co[row][col];
+
+                /* Turn off leds for unused keys */
+                if (index >= led_min && index < led_max && index != NO_LED &&
+                keymap_key_to_keycode(layer, (keypos_t){col,row}) == KC_TRNS) {
+                    rgb_matrix_set_color(index, 0, 0, 0);
+                }
+            }
+        }
+    }
+
+#ifdef USB_LED_INDICATOR_ENABLE
+	md_rgb_matrix_indicators_advanced(led_min, led_max);
+#endif
+    return false;
 }
 
 #ifdef RAW_ENABLE
