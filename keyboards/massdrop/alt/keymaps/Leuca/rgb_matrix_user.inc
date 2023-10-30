@@ -19,7 +19,7 @@ static bool Leuca_static(effect_params_t* params){
       rgb_matrix_set_color(i, 71, 0, 140);
   }
 
-  return led_max < DRIVER_LED_TOTAL;
+  return led_max < RGB_MATRIX_LED_COUNT;
 }
 
 #endif // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
