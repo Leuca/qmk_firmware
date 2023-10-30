@@ -19,8 +19,10 @@
 #include "led_mods.h"
 #include "raw_hid.h"
 
-// static bool led1_on = true; //assume led is on
-// static uint16_t led1_timer = 0; // timer must be initially 0 for led_blink() to work
+#ifdef EXP_BLINK
+static bool led_on[RGB_MATRIX_LED_COUNT] = { false };
+static uint16_t led_timer[RGB_MATRIX_LED_COUNT] = { 0 };
+#endif
 
 enum alt_keycodes {
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -138,7 +140,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-
     if (get_highest_layer(layer_state) > 0) {
         uint8_t layer = get_highest_layer(layer_state);
 
@@ -146,11 +147,23 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
                 uint8_t index = g_led_config.matrix_co[row][col];
 
-                /* Turn off leds for unused keys */
-                if (index >= led_min && index < led_max && index != NO_LED &&
-                keymap_key_to_keycode(layer, (keypos_t){col,row}) == KC_TRNS) {
-                    rgb_matrix_set_color(index, 0, 0, 0);
+#ifdef EXP_BLINK
+                /* Turn off leds for unused keys and blink the other */
+                if (index >= led_min && index < led_max && index != NO_LED) {
+					bool is_trns = keymap_key_to_keycode(layer,
+							(keypos_t){col,row}) == KC_TRNS;
+
+					if (is_trns)
+						rgb_matrix_set_color(index, 0, 0, 0);
+					else
+						led_blink(index, &led_on[index], &led_timer[index]);
                 }
+#else
+				if (index >= led_min && index < led_max && index != NO_LED &&
+						keymap_key_to_keycode(layer, (keypos_t){col,row}) == KC_TRNS) {
+					rgb_matrix_set_color(index, 0, 0, 0);
+				}
+#endif
             }
         }
     }
