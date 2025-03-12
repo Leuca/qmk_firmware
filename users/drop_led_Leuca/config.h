@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef RGB_MATRIX_DEFAULT_MODE
 #define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_CUSTOM_MD_RGB_MATRIX
-#define RGB_MATRIX_TIMEOUT 18000
+#define RGB_DEFER_TIME 10000
 
 /* Disable everything else to force the MD framework */
 #undef ENABLE_RGB_MATRIX_ALPHAS_MODS

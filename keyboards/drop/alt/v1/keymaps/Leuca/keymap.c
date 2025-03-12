@@ -79,6 +79,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
     static uint8_t scroll_effect = 0;
 
+    if (record->event.pressed && led_suspended && !led_enabled) {
+        led_enabled = 1;
+        rgb_matrix_set_enabled(led_enabled);
+    }
+
     switch (keycode) {
         case L_BRI ... U_T_AGCR:
             if (record->event.pressed) {

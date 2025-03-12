@@ -19,10 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "md_rgb_matrix.h"
 #include "eeconfig.h"
 #include "eeprom.h"
+#include "raw_hid.h"
 
 #define FLUSH_TIMEOUT 5000
 #define EECONFIG_MD_LED ((uint8_t*)(EECONFIG_SIZE + 64))
 #define MD_LED_CONFIG_VERSION 3
+
+#ifndef RGB_DEFER_TIME
+#define RGB_DEFER_TIME 5000
+#endif
 
 // TODO?: wire these up to keymap.c
 md_led_config_t md_led_config = {0};
@@ -40,6 +45,7 @@ void eeconfig_update_md_led_default(void) {
     led_animation_speed       = 4.0f;
     led_lighting_mode         = LED_MODE_NORMAL;
     led_enabled               = 1;
+    led_suspended             = 0;
     led_animation_breathe_cur = BREATHE_MIN_STEP;
     breathe_dir               = 1;
     led_animation_circular    = 0;
@@ -345,4 +351,45 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         rgb_matrix_set_color(RGB_MATRIX_CAPS_LOCK_INDEX, 0, 131, 178);
 #endif
     return false;
+}
+
+uint32_t rgb_suspend(uint32_t trigger_time, void *arg) {
+    if (led_suspended && led_enabled) {
+        led_enabled = 0;
+        rgb_matrix_set_enabled(led_enabled);
+    }
+    else if (!led_suspended && !led_enabled) {
+        led_enabled = 1;
+        rgb_matrix_set_enabled(led_enabled);
+    }
+
+    return led_suspended ? RGB_DEFER_TIME : 0;
+}
+
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    uint8_t response[length];
+    memset(response, 0, length);
+    response[0] = 'O';
+    response[1] = 'K';
+
+    if (data[0] == 127 && led_enabled) {
+        led_suspended = 1;
+        led_enabled = 0;
+        rgb_matrix_set_enabled(led_enabled);
+        defer_exec(RGB_DEFER_TIME, rgb_suspend, NULL);
+    }
+    else if (data[0] == 255) {
+        led_suspended = 0;
+    }
+    else if (data[0] == 128) {
+        response[0] = 'R';
+        response[1] = led_enabled;
+    }
+    else {
+        response[0] = 'E';
+        response[1] = 'R';
+        response[2] = 'R';
+    }
+
+    raw_hid_send(response, length);
 }

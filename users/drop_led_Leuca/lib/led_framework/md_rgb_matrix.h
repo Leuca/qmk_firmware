@@ -126,6 +126,7 @@ typedef struct led_config_s {
     float   animation_speed;
     uint8_t lighting_mode;
     uint8_t enabled;
+    uint8_t suspended;
     uint8_t animation_breathe_cur;
     uint8_t animation_direction;
     uint8_t animation_breathe_dir;
@@ -146,6 +147,7 @@ void md_led_changed(void);
 #define led_animation_speed md_led_config.animation_speed
 #define led_lighting_mode md_led_config.lighting_mode
 #define led_enabled md_led_config.enabled
+#define led_suspended md_led_config.suspended
 #define led_animation_breathe_cur md_led_config.animation_breathe_cur
 #define led_animation_direction md_led_config.animation_direction
 #define breathe_dir md_led_config.animation_breathe_dir
