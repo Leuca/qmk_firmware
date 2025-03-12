@@ -324,7 +324,6 @@ void md_rgb_matrix_effect_render(uint8_t i) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-
     if (get_highest_layer(layer_state) > 0) {
         uint8_t layer = get_highest_layer(layer_state);
 
@@ -342,8 +341,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
 
 #ifdef USB_LED_INDICATOR_ENABLE
-	if (host_keyboard_led_state().caps_lock)
-			rgb_matrix_set_color(RGB_MATRIX_CAPS_LOCK_INDEX, 0, 131, 178);
+    if (host_keyboard_led_state().caps_lock)
+        rgb_matrix_set_color(RGB_MATRIX_CAPS_LOCK_INDEX, 0, 131, 178);
 #endif
     return false;
 }
