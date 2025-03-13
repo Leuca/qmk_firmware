@@ -380,6 +380,8 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     }
     else if (data[0] == 255) {
         led_suspended = 0;
+        led_enabled = 1;
+        rgb_matrix_set_enabled(led_enabled);
     }
     else if (data[0] == 128) {
         response[0] = 'R';
